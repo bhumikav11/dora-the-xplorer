@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import jsonfinder
 from scidownl.scihub import *
 import os
-#x = 'https://ieeexplore.ieee.org/document/6784636'
+# sx = 'https://ieeexplore.ieee.org/document/6784636'
 
 def check_url(url):
     if bool(re.search('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', url)) and 'document' in url and 'ieeexplore.ieee.org' in url:
