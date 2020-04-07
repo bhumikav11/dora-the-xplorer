@@ -36,9 +36,8 @@ def echo(bot, update):
                         update.effective_message.reply_text(dat['abstract'])
                         update.effective_message.reply_text(dat['doi'])
                     sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
-                    bot.send_message(chat_id=chat_id, text=dat['doi'])
+                    bot.send_message(chat_id=update.effective_message.chat_id, text=dat['doi'])
                     bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
-                    
             except Exception as e:
                 print(e)
                 pass
