@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
 def start(bot, update):
-    update.effective_message.reply_text("Hi!")
+    update.effective_message.reply_text("Dora The Xplorer!")
 
 
 def echo(bot, update):
