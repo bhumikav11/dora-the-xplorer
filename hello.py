@@ -25,21 +25,20 @@ search_term = input()
 if(check_url(search_term)):
     data = requests.get(search_term)
     soup = BeautifulSoup(data.content, 'html.parser')
-
+    dat = dict()
     for script in soup.find_all('script'):
         try:
             if 'global.document.metadata' in script.contents[0].string:
                 dat = dict(jsonfinder.only_json(script.contents[0].string)[2])
-                print(dat['title'])
-                if len(dat['abstract']) == 0:
-                    print('There is no abtract for this particular paper.')
-                else:
-                    print(dat['abstract'])
-                sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
-                
         except Exception as e:
             print(e)
             pass
+    print(dat['title'])
+    if len(dat['abstract']) == 0:
+        print('There is no abtract for this particular paper.')
+    else:
+        print(dat['abstract'])
+    sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
 else:
     print("Not a Valid URL")
 
