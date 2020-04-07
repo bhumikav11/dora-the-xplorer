@@ -39,6 +39,7 @@ def echo(bot, update):
                     #bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
                     update.effective_message.reply_text(dat['doi'])
             except Exception as e:
+                print(e)
                 pass
     else:
         update.effective_message.reply_text("Not a Valid URL")
