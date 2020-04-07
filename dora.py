@@ -30,7 +30,6 @@ def echo(bot, update):
                     dat = dict(jsonfinder.only_json(script.contents[0].string)[2])
                     # bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
             except Exception as e:
-                print(e)
                 pass
         try:
             update.effective_message.reply_text(dat['title'])
@@ -39,7 +38,7 @@ def echo(bot, update):
             else:
                 update.effective_message.reply_text(dat['abstract'])
                 update.effective_message.reply_text(dat['doi'])
-            sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=1)
+            sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
         except Exception as e:
             print(e)
             pass
