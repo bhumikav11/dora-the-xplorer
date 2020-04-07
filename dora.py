@@ -6,7 +6,6 @@ from scidownl.scihub import *
 import os
 import logging
 import os
-import asyncio
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -20,7 +19,7 @@ def start(bot, update):
     update.effective_message.reply_text("Dora The Xplorer!")
 
 
-async def echo(bot, update):
+def echo(bot, update):
     if(check_url(update.effective_message.text)):
         data = requests.get(update.effective_message.text)
         soup = BeautifulSoup(data.content, 'html.parser')
@@ -36,7 +35,8 @@ async def echo(bot, update):
                     else:
                         update.effective_message.reply_text(dat['abstract'])
                         update.effective_message.reply_text(dat['doi'])
-                    sci = await SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
+                    sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
+                    update.effective_message.reply_text(dat['doi'])
             except Exception as e:
                 pass
     else:
@@ -51,7 +51,6 @@ if __name__ == "__main__":
     # Set these variable to the appropriate values
     TOKEN = "1208597229:AAH1Ps2N47ILkz95NoIsn9TPT21iFVNUbPM"
     NAME = "dora-the-xplorer"
-    asyncio.run(main())
     # Port is given by Heroku
     PORT = os.environ.get('PORT')
 
