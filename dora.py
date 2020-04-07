@@ -8,7 +8,7 @@ import logging
 import os
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-
+from telegram.ext.dispatcher import run_async
 def check_url(url):
     if bool(re.search('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', url)) and 'document' in url and 'ieeexplore.ieee.org' in url:
         return True
