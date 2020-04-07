@@ -36,6 +36,7 @@ if(check_url(search_term)):
                 else:
                     print(dat['abstract'])
                 sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
+                
         except Exception as e:
             print(e)
             pass
