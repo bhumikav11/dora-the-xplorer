@@ -21,7 +21,7 @@ def start(bot, update):
 
 def echo(bot, update):
     if(check_url(update.effective_message.text)):
-        data = requests.get(search_term)
+        data = requests.get(update.effective_message.text)
         soup = BeautifulSoup(data.content, 'html.parser')
 
         for script in soup.find_all('script'):
