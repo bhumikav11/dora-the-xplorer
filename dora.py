@@ -1,15 +1,44 @@
+import requests
+import re
+from bs4 import BeautifulSoup
+import jsonfinder
+from scidownl.scihub import *
+import os
 import logging
 import os
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
+def check_url(url):
+    if bool(re.search('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', url)) and 'document' in url and 'ieeexplore.ieee.org' in url:
+        return True
+    else:
+        return False
 
 def start(bot, update):
     update.effective_message.reply_text("Dora The Xplorer!")
 
 
 def echo(bot, update):
-    update.effective_message.reply_text(update.effective_message.text)
+    if(check_url(update.effective_message.text)):
+        data = requests.get(search_term)
+        soup = BeautifulSoup(data.content, 'html.parser')
+
+        for script in soup.find_all('script'):
+            try:
+                if 'global.document.metadata' in script.contents[0].string:
+                    dat = dict(jsonfinder.only_json(script.contents[0].string)[2])
+                    update.effective_message.reply_text(dat['title'])
+                    if len(dat['abstract']) == 0:
+                        update.effective_message.reply_text('There is no abtract for this particular paper.')
+                    else:
+                        update.effective_message.reply_text(dat['abstract'])
+                    sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
+            except Exception as e:
+                pass
+    else:
+        update.effective_message.reply_text("Not a Valid URL")
+    #update.effective_message.reply_text(update.effective_message.text)
 
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)

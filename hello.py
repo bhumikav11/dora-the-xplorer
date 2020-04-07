@@ -8,17 +8,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler,Filters
 # sx = 'https://ieeexplore.ieee.org/document/6784636'
 
-def check_url(url):
-    if bool(re.search('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', url)) and 'document' in url and 'ieeexplore.ieee.org' in url:
-        return True
-    else:
-        return False
 
-def start(update,context):
-    update.messsage.reply_text("Hey, there!")
-
-def echo(update,context):
-    update.message.reply_text("Here is the PDF ready to download")
 
 search_term = input()
 
