@@ -42,7 +42,7 @@ def echo(bot, update):
         except Exception as e:
             print(e)
             pass
-        bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
+        bot.send_document(chat_id=update.effective_message.chat_id, document=open('./output/'+dat['title']+'.pdf', 'rb'))
 
     else:
         update.effective_message.reply_text("Not a Valid URL")
