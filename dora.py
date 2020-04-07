@@ -32,15 +32,18 @@ def echo(bot, update):
             except Exception as e:
                 print(e)
                 pass
-        update.effective_message.reply_text(dat['title'])
-        if len(dat['abstract']) == 0:
-            update.effective_message.reply_text('There is no abtract for this particular paper.')
-        else:
-            update.effective_message.reply_text(dat['abstract'])
-            update.effective_message.reply_text(dat['doi'])
-        sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=1)
-        bot.send_message(chat_id=update.effective_message.chat_id, text=dat['doi'])
-        bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
+        try:
+            update.effective_message.reply_text(dat['title'])
+            if len(dat['abstract']) == 0:
+                update.effective_message.reply_text('There is no abtract for this particular paper.')
+            else:
+                update.effective_message.reply_text(dat['abstract'])
+                update.effective_message.reply_text(dat['doi'])
+            sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=1)
+        except Exception as e:
+            print(e)
+            pass
+        # bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
 
     else:
         update.effective_message.reply_text("Not a Valid URL")
