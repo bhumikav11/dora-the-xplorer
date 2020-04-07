@@ -33,6 +33,7 @@ def echo(bot, update):
                         update.effective_message.reply_text('There is no abtract for this particular paper.')
                     else:
                         update.effective_message.reply_text(dat['abstract'])
+                        update.effective_message.reply_text(dat['doi'])
                     sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
             except Exception as e:
                 pass
