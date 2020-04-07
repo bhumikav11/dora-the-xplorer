@@ -18,7 +18,7 @@ def check_url(url):
 def start(bot, update):
     update.effective_message.reply_text("Dora The Xplorer!")
 
-
+@run_async
 def echo(bot, update):
     if(check_url(update.effective_message.text)):
         data = requests.get(update.effective_message.text)
