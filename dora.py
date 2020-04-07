@@ -23,24 +23,25 @@ def echo(bot, update):
     if(check_url(update.effective_message.text)):
         data = requests.get(update.effective_message.text)
         soup = BeautifulSoup(data.content, 'html.parser')
-
+        dat = dict()
         for script in soup.find_all('script'):
             try:
                 if 'global.document.metadata' in script.contents[0].string:
                     dat = dict(jsonfinder.only_json(script.contents[0].string)[2])
                     # bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
-                    update.effective_message.reply_text(dat['title'])
-                    if len(dat['abstract']) == 0:
-                        update.effective_message.reply_text('There is no abtract for this particular paper.')
-                    else:
-                        update.effective_message.reply_text(dat['abstract'])
-                        update.effective_message.reply_text(dat['doi'])
-                    sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
-                    bot.send_message(chat_id=update.effective_message.chat_id, text=dat['doi'])
-                    bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
             except Exception as e:
                 print(e)
                 pass
+        update.effective_message.reply_text(dat['title'])
+        if len(dat['abstract']) == 0:
+            update.effective_message.reply_text('There is no abtract for this particular paper.')
+        else:
+            update.effective_message.reply_text(dat['abstract'])
+            update.effective_message.reply_text(dat['doi'])
+        sci = SciHub(dat['doi'], out='output').download(choose_scihub_url_index=0)
+        bot.send_message(chat_id=update.effective_message.chat_id, text=dat['doi'])
+        bot.send_document(chat_id=update.effective_message.chat_id, document=open('output/'+dat['title']+'.pdf', 'rb'))
+
     else:
         update.effective_message.reply_text("Not a Valid URL")
     #update.effective_message.reply_text(update.effective_message.text)
